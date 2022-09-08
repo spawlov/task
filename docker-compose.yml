@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+
+  app:
+    container_name: task_container
+    build: .
+    command: python main.py
+    networks:
+      - task
+    restart: always
+
+  db:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_DB: task
+      POSTGRES_USER: task
+      POSTGRES_PASSWORD: task
+    ports:
+      - "5432:5432"
+    networks:
+      - task
+    restart: always
+
+  adminer:
+    container_name: adminer_container
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - task
+
+networks:
+    task:
+      driver: bridge
